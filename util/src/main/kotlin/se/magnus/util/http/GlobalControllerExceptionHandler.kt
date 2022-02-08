@@ -12,6 +12,16 @@ import se.magnus.microservices.api.exceptions.NotFoundException
 
 @RestControllerAdvice
 class GlobalControllerExceptionHandler {
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException::class)
+    @ResponseBody
+    fun handleBadRequestExceptions(
+        request: ServerHttpRequest?, ex: BadRequestException?
+    ): HttpErrorInfo {
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request!!, ex)
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException::class)
     @ResponseBody
