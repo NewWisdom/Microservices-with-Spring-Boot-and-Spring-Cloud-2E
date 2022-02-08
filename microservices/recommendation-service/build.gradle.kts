@@ -11,10 +11,10 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 }
 
 plugins {
-    id("org.springframework.boot") version "2.5.2"
+    id("org.springframework.boot") version Versions.springboot
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.spring") version "1.6.10"
+    kotlin("jvm") version Versions.kotlin
+    kotlin("plugin.spring") version Versions.kotlin
 }
 
 group = "se.magnus.microservices"
@@ -35,8 +35,20 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.mapstruct:mapstruct:${Versions.mapstruct}")
+    compileOnly("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
+
+    implementation(platform("org.testcontainers:testcontainers-bom:${Versions.testcontainersBom}"))
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:mongodb")
 }
 
 tasks.withType<KotlinCompile> {
@@ -50,4 +62,4 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.register("prepareKotlinBuildScriptModel"){}
+tasks.register("prepareKotlinBuildScriptModel") {}

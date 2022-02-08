@@ -11,10 +11,11 @@ tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar
 }
 
 plugins {
-    id("org.springframework.boot") version "2.5.2"
+    id("org.springframework.boot") version Versions.springboot
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.spring") version "1.6.10"
+    kotlin("jvm") version Versions.kotlin
+    kotlin("plugin.spring") version Versions.kotlin
+    kotlin("plugin.jpa") version Versions.kotlin
 }
 
 group = "se.magnus.microservices"
@@ -35,8 +36,24 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation ("mysql:mysql-connector-java")
+    implementation ("org.mapstruct:mapstruct:${Versions.mapstruct}")
+    compileOnly ("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+    annotationProcessor ("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+    testAnnotationProcessor ("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        exclude(group = "org.mockito")
+    }
+    testImplementation("com.ninja-squad:springmockk:${Versions.springMockk}")
     testImplementation("io.projectreactor:reactor-test")
+
+    implementation(platform("org.testcontainers:testcontainers-bom:${Versions.testcontainersBom}"))
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("com.h2database:h2")
 }
 
 tasks.withType<KotlinCompile> {

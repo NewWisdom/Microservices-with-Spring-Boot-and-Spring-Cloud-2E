@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import se.magnus.microservices.api.exceptions.BadRequestException
 import se.magnus.microservices.api.exceptions.InvalidInputException
 import se.magnus.microservices.api.exceptions.NotFoundException
 
@@ -17,9 +18,9 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(BadRequestException::class)
     @ResponseBody
     fun handleBadRequestExceptions(
-        request: ServerHttpRequest?, ex: BadRequestException?
+        request: ServerHttpRequest, ex: BadRequestException
     ): HttpErrorInfo {
-        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request!!, ex)
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex)
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

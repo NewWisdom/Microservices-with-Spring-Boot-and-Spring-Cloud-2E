@@ -11,8 +11,8 @@ tasks.getByName<BootJar>("bootJar") {
 plugins {
 	id("org.springframework.boot") version "2.5.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.6.10"
-	kotlin("plugin.spring") version "1.6.10"
+	kotlin("jvm") version Versions.kotlin
+	kotlin("plugin.spring") version Versions.kotlin
 }
 
 group = "se.magnus.microservices"
